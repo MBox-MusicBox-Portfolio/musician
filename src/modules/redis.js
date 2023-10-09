@@ -66,6 +66,7 @@ export async function RedisDelKey(key)
       return (await redis.del(key));
     }else{
         console.error(`[${new Date().toLocaleString()}] : Redis module: [RedisDelKey()]: Empty params `);
+        return false; 
     }
 }
 

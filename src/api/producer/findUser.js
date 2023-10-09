@@ -12,7 +12,7 @@ router.post('/api/musician/findUser', async (ctx) =>{
         if(await getToken(ctx.request.body.Access) != false)
         {
             ctx.status=200;
-            ctx.body=await findUser(ctx.request.body.Email);
+            ctx.body=await findUser(ctx.request.body.Email, ctx);
         }else{
             ctx.body={
                 success:false,

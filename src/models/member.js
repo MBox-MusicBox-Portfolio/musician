@@ -6,6 +6,7 @@ import {DataTypes} from 'sequelize';
 const Member = db.define('Members',{
     Id:{
         primaryKey:true,
+        defaultValue: DataTypes.UUIDV4,
         type:DataTypes.UUIDV4
     },
     UserId:{
@@ -16,7 +17,8 @@ const Member = db.define('Members',{
         allowNull:false
     },
     isEdit:{
-        type:DataTypes.BOOLEAN
+        type:DataTypes.BOOLEAN,
+        defaultValue: true
     }
 }) 
 

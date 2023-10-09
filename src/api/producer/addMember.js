@@ -6,29 +6,45 @@ import { checkAuthorization } from "../../middleware/isAuth.js";
 
 const router = new Router();
 router.use(bodyParser());
+
 router.post('/api/musician/createMember', async (ctx) =>{
-    console.log("Token:" + ctx.request.body.Token)
-   if(await checkAuthorization("authUser_"+ctx.request.body.Token)){
-        if(await getToken(ctx.request.body.Token))
+try{
+    if(await checkAuthorization("authUser_"+ctx.request.body.Token,ctx)){
+        if(await getToken(ctx.request.body.Token) != false)
         {
            ctx.status=200;
-
+           ctx.body = await addMember({UserId: ctx.request.body.UserId,
+                                        BandId: ctx.request.body.BandId,
+                                        MemberId: ctx.request.body.UserId, 
+                                        Information: ctx.request.body.Information,
+                                        isEdit: ctx.request.body.IsEdit,
+                                        RedisKey: "authUser_"+`${ctx.request.body.Token}`
+                                       },ctx);
         }else{
-
-        }
-   }else{
-    ctx.status=403;
-    /*
-    ctx.body = await getResponse(false,{
-        access: "Access denied: You need authorized! "
-    });*/
+           ctx.body={
+               success:false,
+               value:{
+                   error:"The requested action requires a role higher than that of the user or musician"
+                }
+            }
+         }
+    }else{
+     ctx.status=403;
+     ctx.body={
+         success:false,
+         value:{
+             message:"Access denied: You need authorized!"
+         }
+     }
+    }   
+}catch(err){
+    ctx.status=500;
     ctx.body={
-        success:false,
-        value:{
-            message:"Access denied: You need authorized!"
+        success: false,
+        value: {
+           error: `[${new Date().toLocaleString()}] : Musician Server [CreateMember Controller]: Server exception: ${err}`
         }
-    }
-   }   
-})
+    };
+}})
 
 export default router;
