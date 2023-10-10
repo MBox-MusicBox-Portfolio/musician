@@ -14,12 +14,11 @@ try{
         {
            ctx.status=200;
            ctx.body = await addMember({UserId: ctx.request.body.UserId,
-                                        BandId: ctx.request.body.BandId,
-                                        MemberId: ctx.request.body.UserId, 
-                                        Information: ctx.request.body.Information,
-                                        isEdit: ctx.request.body.IsEdit,
-                                        RedisKey: "authUser_"+`${ctx.request.body.Token}`
-                                       },ctx);
+                                       BandId: ctx.request.body.BandId,
+                                       MemberId: ctx.request.body.UserId, 
+                                       Information: ctx.request.body.Information,
+                                       isEdit: ctx.request.body.IsEdit,
+                                       RedisKey: "authUser_"+`${ctx.request.body.Token}`},ctx);
         }else{
            ctx.body={
                success:false,
