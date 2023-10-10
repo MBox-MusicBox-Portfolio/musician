@@ -52,19 +52,30 @@ async function getMember(userId)
    return memberId.dataValues.Id;
 }
 
-async function changeUserRole(userId,redisKey)
-{
-   try{
-      const user = await User.findOne({where:{Id:userId},attributes:['RoleId']}) 
-      const roleId = Roles.findOne({where:{Name:'musician'}, attributes:['Id']});
-      user.RoleId = roleId;
-      await user.save();
-      await deleteAuthorization(redisKey)
-   }catch(err){
-
+async function changeUserRole(userId, redisKey) {
+   try {
+     const user = await User.findOne({ where: { Id: userId }, attributes: ['RoleId'] });
+     const roleId = await Roles.findOne({ where: { Name: 'musician' }, attributes: ['Id'] });
+     if (user && roleId) {
+       await User.update(
+         { RoleId: roleId.dataValues.Id },
+         { where: { RoleId: await getUserRole('user') } }
+       );
+       //await user.save();
+      // await deleteAuthorization(redisKey);
+     } else {
+       console.error('Пользователь или роль не найдены.');
+     }
+   } catch (err) {
+     console.error(err);
    }
-}
+ }
  
+async function getUserRole(rolename)
+{
+  const roleName= await Roles.findOne({where: {Name:'user'}, attributes:['Id']});
+  return roleName.dataValues.Id
+}
 async function deleteAuthorization(redisKey)
 {
    if(redisKey)
