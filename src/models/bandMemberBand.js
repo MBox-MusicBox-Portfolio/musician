@@ -15,6 +15,7 @@ const BandMemberBand = db.define('BandMemberBand',{
     tableName: 'BandMemberBand' 
 });
 
+
 Band.belongsToMany(Member, { through: BandMemberBand, foreignKey: 'BandsId' });
 Member.belongsToMany(Band, { through: BandMemberBand, foreignKey: 'MembersId' });
 

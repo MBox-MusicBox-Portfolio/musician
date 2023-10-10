@@ -1,5 +1,6 @@
 'use strict'
 import Producer  from '../models/producer.js';
+import News from './news.js';
 import db from '../modules/db.js'
 import {DataTypes} from 'sequelize';
 
@@ -31,6 +32,5 @@ const Band = db.define('Bands',{
 
 Producer.belongsTo(Band);
 Band.hasMany(Producer);
-
-
+//Band.hasMany(News);
 export default Band;
