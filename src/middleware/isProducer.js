@@ -20,8 +20,11 @@ export async function checkUserRole(decodeToken)
    if (decodeToken.Roles !== "producer")
    {
        return false;
+   }else if(decodeToken.Roles !== "musician")
+   {
+      return false;
    }else{
-        console.log(`[${new Date().toLocaleString()}] : IsProducer [Middleware]: Ok`);
+        console.log(`[${new Date().toLocaleString()}] : CheckUserRole [Middleware]: Ok`);
         return true;
    }
 }

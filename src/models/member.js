@@ -1,5 +1,6 @@
 'use strict'
 import User from '../models/user.js'
+import News from './news.js';
 import db from '../modules/db.js'
 import {DataTypes} from 'sequelize';
 
@@ -24,5 +25,5 @@ const Member = db.define('Members',{
 
 Member.belongsTo(User);
 User.hasMany(Member);
-
+Member.hasMany(News);
 export default Member;
