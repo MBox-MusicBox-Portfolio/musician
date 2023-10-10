@@ -13,7 +13,8 @@ router.post('/api/musician/deleteMember', async (ctx)=>{
         if(await getToken(ctx.request.body.Token) != false)
         {
            ctx.status=200;
-           ctx.body = await deleteMemberUser({UserId: ctx.request.body.UserId});                          
+           ctx.body = await deleteMemberUser({Token: ctx.request.body.Token,
+                                              UserId: ctx.request.body.UserId});                          
         }else{
            ctx.body={
                success:false,
